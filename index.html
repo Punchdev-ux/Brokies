@@ -1,0 +1,882 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broke Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white px-6 py-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <span class="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">Broke Store</span>
+            </div>
+            
+            <!-- Navigation Links -->
+            <div class="hidden md:flex space-x-8" role="tablist">
+                <button role="tab" aria-selected="true" aria-controls="energy" class="nav-link text-lg font-medium text-gray-800 hover:text-purple-600 transition" onclick="showSection('energy')" id="energy-tab">Energy</button>
+                <button role="tab" aria-selected="false" aria-controls="laptops" class="nav-link text-lg font-medium text-gray-800 hover:text-purple-600 transition" onclick="showSection('laptops')" id="laptops-tab">Laptops</button>
+                <button role="tab" aria-selected="false" aria-controls="speakers" class="nav-link text-lg font-medium text-gray-800 hover:text-purple-600 transition" onclick="showSection('speakers')" id="speakers-tab">Speakers</button>
+                <button role="tab" aria-selected="false" aria-controls="login" class="nav-link text-lg font-medium text-gray-800 hover:text-purple-600 transition" onclick="showSection('login')" id="login-tab">Become a Brokie</button>
+            </div>
+            
+            <!-- Search and Cart -->
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" id="search-input" class="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Search Broke Store..." oninput="searchProducts()">
+                    <div class="absolute left-3 top-2.5 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <div id="search-dropdown" class="search-dropdown mt-2">
+                        <div id="search-results" class="py-2"></div>
+                    </div>
+                </div>
+                <button class="cart-btn relative p-2 rounded-full hover:bg-gray-100 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-800 focus:outline-none" onclick="toggleMobileMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden pt-4 pb-2">
+            <div class="flex flex-col space-y-2">
+                <button class="px-4 py-2 text-left font-medium text-gray-800 hover:bg-gray-100 rounded-lg transition" onclick="showSection('energy')">Energy</button>
+                <button class="px-4 py-2 text-left font-medium text-gray-800 hover:bg-gray-100 rounded-lg transition" onclick="showSection('laptops')">Laptops</button>
+                <button class="px-4 py-2 text-left font-medium text-gray-800 hover:bg-gray-100 rounded-lg transition" onclick="showSection('speakers')">Speakers</button>
+                <button class="px-4 py-2 text-left font-bold text-purple-600 hover:bg-purple-50 rounded-lg transition" onclick="showSection('login')">Become a Brokie</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative">
+        <div class="bg-gradient-to-r from-pink-100 to-purple-100 py-20">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center">
+                    <h1 class="text-5xl font-bold text-gray-900 mb-6">Welcome to Broke Store</h1>
+                    <p class="text-xl text-gray-700 mb-8">The best place to get energy drinks, laptops, and speakers when you're running low on cash but high on taste!</p>
+                    <button onclick="showSection('energy')" class="login-btn px-8 py-3 rounded-full text-white font-bold text-lg transform hover:scale-105 transition">Shop Now</button>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white"></div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <!-- Energy Drinks Section -->
+        <section id="energy" class="mb-20" role="tabpanel" aria-labelledby="energy-tab" tabindex="0">
+            <h2 class="text-3xl font-bold mb-8 text-gray-900 border-b-2 border-purple-200 pb-2">Energy Drinks</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Product cards remain the same as in your original code -->
+                <!-- Play Energy Drinks -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Play+Original" alt="Play Original" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Play Original</h3>
+                        <p class="text-gray-600 mb-4">The classic Play Energy flavor</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R15.42</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Play+Tropical" alt="Play Tropical" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Play Tropical</h3>
+                        <p class="text-gray-600 mb-4">Exotic tropical fruit flavor</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R15.42</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Monster+Ultra" alt="Monster Ultra" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Monster Ultra</h3>
+                        <p class="text-gray-600 mb-4">Zero sugar, full flavor</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R19.99</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Monster+Pipeline" alt="Monster Pipeline" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Monster Pipeline</h3>
+                        <p class="text-gray-600 mb-4">Punch tropical flavor</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R19,99</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Monster+Rehab" alt="Monster Rehab" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Monster Rehab</h3>
+                        <p class="text-gray-600 mb-4">Tea + energy with electrolytes</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R20.49</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+        
+        <!-- Laptops Section -->
+        <section id="laptops" class="mb-20" role="tabpanel" aria-labelledby="laptops-tab" tabindex="0" hidden>
+            <h2 class="text-3xl font-bold mb-8 text-gray-900 border-b-2 border-purple-200 pb-2">Dell Laptops</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product cards remain the same as in your original code -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Dell+XPS+13" alt="Dell XPS 13" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Dell XPS 13</h3>
+                        <p class="text-gray-600 mb-4">13.4" FHD+ InfinityEdge Touch Display, Intel Core i7, 16GB RAM, 512GB SSD</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R24,049.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+          
+             <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Dell+XPS+15" alt="Dell XPS 15" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Dell XPS 15</h3>
+                        <p class="text-gray-600 mb-4">15.6" 4K UHD+ InfinityEdge Touch Display, Intel Core i9, 32GB RAM, 1TB SSD</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R42,549.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>   
+
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Dell+Inspiron+15" alt="Dell Inspiron 15" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Dell Inspiron 15</h3>
+                        <p class="text-gray-600 mb-4">15.6" FHD Display, Intel Core i5, 8GB RAM, 256GB SSD</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R12,949.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Dell+G5+15" alt="Dell G5 15" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Dell G5 15</h3>
+                        <p class="text-gray-600 mb-4">15.6" FHD 144Hz Display, Intel Core i7, 16GB RAM, 512GB SSD, NVIDIA RTX 2060</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">$17,200</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Dell+Latitude+14" alt="Dell Latitude 14" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Dell Latitude 14</h3>
+                        <p class="text-gray-600 mb-4">14" FHD Display, Intel Core i5, 16GB RAM, 512GB SSD</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R20,349.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=Dell+Alienware+m15" alt="Dell Alienware m15" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Dell Alienware m15</h3>
+                        <p class="text-gray-600 mb-4">15.6" FHD 240Hz Display, Intel Core i9, 32GB RAM, 1TB SSD, NVIDIA RTX 2080 Super</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R51,799.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              </div>
+        </section>
+        
+        <!-- Speakers Section -->
+        <section id="speakers" class="mb-20" role="tabpanel" aria-labelledby="speakers-tab" tabindex="0" hidden>
+            <h2 class="text-3xl font-bold mb-8 text-gray-900 border-b-2 border-purple-200 pb-2">JBL Speakers</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <!-- Product cards remain the same as in your original code -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=JBL+Flip+5" alt="JBL Flip 5" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">JBL Flip 5</h3>
+                        <p class="text-gray-600 mb-4">Portable Bluetooth speaker with powerful sound</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R2,219.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=JBL+Charge+4" alt="JBL Charge 4" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">JBL Charge 4</h3>
+                        <p class="text-gray-600 mb-4">Waterproof portable Bluetooth speaker with power bank</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R3,144.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=JBL+Boombox+2" alt="JBL Boombox 2" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">JBL Boombox 2</h3>
+                        <p class="text-gray-600 mb-4">Portable Bluetooth speaker with monstrous sound</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R9,249.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=JBL+PartyBox+100" alt="JBL PartyBox 100" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">JBL PartyBox 100</h3>
+                        <p class="text-gray-600 mb-4">Portable party speaker with light show</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R8,324.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=JBL+XTREME+3" alt="JBL XTREME 3" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">JBL XTREME 3</h3>
+                        <p class="text-gray-600 mb-4">Portable Bluetooth speaker with JBL Pro Sound</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R6,474.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="https://via.placeholder.com/300x300.png?text=JBL+GO+3" alt="JBL GO 3" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">JBL GO 3</h3>
+                        <p class="text-gray-600 mb-4">Ultra-portable waterproof Bluetooth speaker</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R924.80</span>
+                            <button class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+        
+<!-- Login/Signup Section -->
+        <section id="login" class="mb-20" role="tabpanel" aria-labelledby="login-tab" tabindex="0" hidden>
+            <div class="auth-container">
+                <div class="auth-form">
+                    <!-- Tabs Navigation -->
+                    <div class="auth-tabs">
+                        <div id="login-tab-btn" class="auth-tab active" onclick="showAuthTab('login-form')">Sign In</div>
+                        <div id="signup-tab-btn" class="auth-tab" onclick="showAuthTab('signup-form')">Sign Up</div>
+                    </div>
+                    
+                    <form action="connect.php" method="post">
+    <div class="form-group">
+        <label for="signup-name">Full Name</label>
+        <input type="text" id="signup-name" class="form-control" placeholder="Enter your full name" required name="fullname">
+    </div>
+    <div class="form-group">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" class="form-control" placeholder="Enter your email" required name="email">
+    </div>
+    <div class="form-group">
+        <label for="signup-password">Password</label>
+        <div class="password-wrapper">
+            <input type="password" id="signup-password" class="form-control" placeholder="Create a password" required name="password">
+            <span class="toggle-password" onclick="togglePasswordVisibility('signup-password')">
+                <!-- SVG icon here -->
+            </span>
+        </div>
+        <div class="text-xs text-gray-500 mt-1">Must be at least 8 characters</div>
+    </div>
+    <div class="form-group">
+        <label for="signup-confirm-password">Confirm Password</label>
+        <div class="password-wrapper">
+            <input type="password" id="signup-confirm-password" class="form-control" placeholder="Confirm your password" required name="confirm_password">
+            <span class="toggle-password" onclick="togglePasswordVisibility('signup-confirm-password')">
+                <!-- SVG icon here -->
+            </span>
+        </div>
+    </div>
+    <div class="form-group flex items-start">
+        <input type="checkbox" id="signup-terms" class="mt-1 mr-2" required name="terms">
+        <label for="signup-terms" class="text-sm">I agree to the <a href="#" class="text-purple-600">Terms of Service</a> and <a href="#" class="text-purple-600">Privacy Policy</a></label>
+    </div>
+    <button type="submit" class="auth-btn login-btn text-white">Create Account</button>
+    <!-- ...social buttons and footer... -->
+</form>
+
+
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bg py-16 px-6 text-center">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-8">
+                <span class="text-3xl font-bold text-white">Broke Store</span>
+                <p class="text-gray-200 mt-2">The best place for energy drinks and tech when you're broke</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-center space-y-6 md:space-y-0 md:space-x-16 mb-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Shop</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition" onclick="showSection('energy')">Energy Drinks</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition" onclick="showSection('laptops')">Dell Laptops</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition" onclick="showSection('speakers')">JBL Speakers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Help</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">FAQ</a></li>
+                        <li><a href="/track.html" class="text-gray-300 hover:text-white transition">Shipping</a></li>
+                        <li><a href="/returns.html" class="text-gray-300 hover:text-white transition">Returns</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/returns.html" class="text-gray-300 hover:text-white transition">About Us</a></li>
+                        <li><a href="mailto:complaints@brokestore.com?subject=Complaint" class="text-gray-300 hover:text-white transition">Contact</a></li>
+                        <li><a href="/returns.html" class="text-gray-300 hover:text-white transition">Careers</a></li>
+                        <li><a href="mailto:complaints@brokestore.com?subject=Complaint" class="text-gray-300 hover:text-white transition">Complaints</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8">
+                <p class="text-white">&copy; 2023 Broke Store. Developed by <span class="font-bold">Punch dev</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Products data for search functionality
+        const products = [
+            { name: "Play Original", category: "Energy", price: 55.42 },
+            { name: "Play Tropical", category: "Energy", price: 55.42 },
+            { name: "Play Citrus", category: "Energy", price: 55.42 },
+            { name: "Play Berry", category: "Energy", price: 55.42 },
+            { name: "Monster Original", category: "Energy", price: 64.57 },
+            { name: "Monster Ultra", category: "Energy", price: 64.57 },
+            { name: "Monster Pipeline", category: "Energy", price: 64.57 },
+            { name: "Monster Rehab", category: "Energy", price: 64.57 },
+            { name: "Dell XPS 13", category: "Laptops", price: 24049.80 },
+            { name: "Dell XPS 15", category: "Laptops", price: 42549.80 },
+            { name: "Dell Inspiron 15", category: "Laptops", price: 12949.80 },
+            { name: "Dell G5 15", category: "Laptops", price: 24049.80 },
+            { name: "Dell Latitude 14", category: "Laptops", price: 20349.80 },
+            { name: "Dell Alienware m15", category: "Laptops", price: 51799.80 },
+            { name: "JBL Flip 5", category: "Speakers", price: 2219.80 },
+            { name: "JBL Charge 4", category: "Speakers", price: 3144.80 },
+            { name: "JBL Boombox 2", category: "Speakers", price: 9249.80 },
+            { name: "JBL PartyBox 100", category: "Speakers", price: 8324.80 },
+            { name: "JBL XTREME 3", category: "Speakers", price: 6474.80 },
+            { name: "JBL GO 3", category: "Speakers", price: 924.80 }
+        ];
+
+        // Search functionality
+        function searchProducts() {
+            const searchInput = document.getElementById('search-input');
+            const searchTerm = searchInput.value.toLowerCase();
+            const searchResults = document.getElementById('search-results');
+            const dropdown = document.getElementById('search-dropdown');
+            
+            if (searchTerm.length === 0) {
+                dropdown.classList.remove('show');
+                return;
+            }
+            
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(searchTerm)
+            );
+            
+            searchResults.innerHTML = '';
+            
+            if (filteredProducts.length === 0) {
+                searchResults.innerHTML = '<div class="px-4 py-2 text-gray-500">No products found</div>';
+                dropdown.classList.add('show');
+                return;
+            }
+            
+            filteredProducts.slice(0, 5).forEach(product => {
+                const item = document.createElement('div');
+                item.className = 'px-4 py-2 hover:bg-purple-50 cursor-pointer flex justify-between border-b border-gray-100';
+                item.innerHTML = `
+                    <div>
+                        <div class="font-medium text-gray-800">${product.name}</div>
+                        <div class="text-sm text-gray-500">${product.category}</div>
+                    </div>
+                    <div class="text-purple-600 font-bold">R${product.price.toFixed(2)}</div>
+                `;
+                item.addEventListener('click', () => {
+                    searchInput.value = product.name;
+                    dropdown.classList.remove('show');
+                });
+                searchResults.appendChild(item);
+            });
+            
+            dropdown.classList.add('show');
+        }
+        
+        // Hide search dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            const searchInput = document.getElementById('search-input');
+            const dropdown = document.getElementById('search-dropdown');
+            
+            if (event.target !== searchInput && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+        
+        // Show specific section with proper ARIA handling
+        function showSection(sectionId) {
+            // Hide all sections
+            document.getElementById('energy').setAttribute('hidden', '');
+            document.getElementById('laptops').setAttribute('hidden', '');
+            document.getElementById('speakers').setAttribute('hidden', '');
+            document.getElementById('login').setAttribute('hidden', '');
+            
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+            
+            // Unhide selected section
+            document.getElementById(sectionId).removeAttribute('hidden');
+            
+            // Update ARIA attributes for tabs
+            document.getElementById('energy-tab').setAttribute('aria-selected', sectionId === 'energy');
+            document.getElementById('laptops-tab').setAttribute('aria-selected', sectionId === 'laptops');
+            document.getElementById('speakers-tab').setAttribute('aria-selected', sectionId === 'speakers');
+            document.getElementById('login-tab').setAttribute('aria-selected', sectionId === 'login');
+            
+            // Reset to login form when showing login section
+            if (sectionId === 'login') {
+                showAuthTab('login-form');
+            }
+            
+            // Scroll to top of section
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+        
+        // Toggle between login and signup forms
+        function showAuthTab(tabId) {
+            // Hide all auth forms
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'none';
+            
+            // Show selected form
+            document.getElementById(tabId).style.display = 'block';
+            
+            // Update tab buttons
+            document.getElementById('login-tab-btn').classList.remove('active');
+            document.getElementById('signup-tab-btn').classList.remove('active');
+            
+            if (tabId === 'login-form') {
+                document.getElementById('login-tab-btn').classList.add('active');
+            } else {
+                document.getElementById('signup-tab-btn').classList.add('active');
+            }
+        }
+        
+        // Toggle password visibility
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('svg');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.setAttribute('stroke', '#6b46c1');
+            } else {
+                input.type = 'password';
+                icon.setAttribute('stroke', 'currentColor');
+            }
+        }
+        
+        // Login function with validation and feedback
+        function loginUser() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const messageEl = document.getElementById('login-message');
+            
+            // Clear previous messages
+            messageEl.classList.add('hidden');
+            
+            // Validation
+            if (!email || !password) {
+                messageEl.textContent = 'Please fill in all fields';
+                messageEl.className = 'mb-4 px-4 py-3 rounded text-sm bg-red-100 text-red-700';
+                messageEl.classList.remove('hidden');
+                return;
+            }
+            
+            // Validate email format
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                messageEl.textContent = 'Please enter a valid email address';
+                messageEl.className = 'mb-4 px-4 py-3 rounded text-sm bg-red-100 text-red-700';
+                messageEl.classList.remove('hidden');
+                return;
+            }
+            
+            // Password length check
+            if (password.length < 8) {
+                messageEl.textContent = 'Password must be at least 8 characters';
+                messageEl.className = 'mb-4 px-4 py-3 rounded text-sm bg-red-100 text-red-700';
+                messageEl.classList.remove('hidden');
+                return;
+            }
+            
+            // Simulate API call
+            setTimeout(() => {
+                messageEl.textContent = 'Login successful! Redirecting...';
+                messageEl.className = 'mb-4 px-4 py-3 rounded text-sm bg-green-100 text-green-700';
+                messageEl.classList.remove('hidden');
+                
+                // Close the login tab and show products after 1.5 seconds
+                setTimeout(() => {
+                    showSection('energy');
+                }, 1500);
+            }, 1000);
+        }
+        
+        // Signup function
+        function signupUser() {
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            const agreedToTerms = document.getElementById('signup-terms').checked;
+            
+            // Simple validation
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters');
+                return;
+            }
+            
+            if (!agreedToTerms) {
+                alert('You must agree to the Terms of Service and Privacy Policy');
+                return;
+            }
+            
+            // In a real app, you I send this to a server for account creation
+            console.log('Signup attempt with:', { name, email, password });
+            
+            // For demo purposes, I'll just show a success message
+            alert('Account created successfully! Please log in.');
+            
+            // Switch to login form
+            showAuthTab('login-form');
+        }
+        
+        
+        
+        // Initialize with all sections visible
+        window.onload = function() {
+            showSection('energy');
+        };
+
+        // Cart functionality
+        let cart = [];
+        
+        function toggleCartModal() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderCartItems();
+            }
+        }
+        
+        function renderCartItems() {
+            const cartItemsEl = document.getElementById('cart-items');
+            const cartTotalEl = document.getElementById('cart-total');
+            
+            cartItemsEl.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = '<p class="text-gray-500">Your cart is empty</p>';
+                cartTotalEl.textContent = 'R0.00';
+                return;
+            }
+            
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'flex justify-between items-center py-3 border-b border-gray-200';
+                itemEl.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="font-medium">${item.name}</h4>
+                        <p class="text-sm text-gray-500">${item.category}</p>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-4">R${item.price.toFixed(2)}</span>
+                        <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                cartItemsEl.appendChild(itemEl);
+                total += item.price;
+            });
+            
+            cartTotalEl.textContent = `R${total.toFixed(2)}`;
+            document.getElementById('cart-count').textContent = cart.length;
+        }
+        
+        function toggleCheckout() {
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const payNowBtn = document.getElementById('pay-now-btn');
+            const checkoutSection = document.getElementById('checkout-section');
+            
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            
+            if (checkoutSection.classList.contains('hidden')) {
+                checkoutBtn.classList.add('hidden');
+                payNowBtn.classList.remove('hidden');
+                checkoutSection.classList.remove('hidden');
+            } else {
+                checkoutBtn.classList.remove('hidden');
+                payNowBtn.classList.add('hidden');
+                checkoutSection.classList.add('hidden');
+            }
+        }
+        
+        function processPayment() {
+            const cardNumber = document.getElementById('card-number').value;
+            const cardExpiry = document.getElementById('card-expiry').value;
+            const cardCvc = document.getElementById('card-cvc').value;
+            const cardName = document.getElementById('card-name').value;
+            
+            // Simple validation
+            if (!cardNumber || !cardExpiry || !cardCvc || !cardName) {
+                alert('Please fill in all payment details');
+                return;
+            }
+            
+            // Process payment (in a real app you would connect to a payment gateway)
+            console.log('Processing payment for:', {
+                cardNumber: cardNumber.replace(/\D/g, ''),
+                cardExpiry,
+                cardCvc,
+                cardName
+            });
+            
+            // Clear cart
+            cart = [];
+            document.getElementById('cart-count').textContent = '0';
+            
+            // Reset checkout form
+            toggleCheckout();
+            toggleCartModal();
+            
+            // Show success message
+            alert('Payment processed successfully! Thank you for your purchase.');
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCartItems();
+        }
+
+        function trackOrder() {
+            const trackingNumber = document.getElementById('tracking-number').value.trim().toUpperCase();
+            const results = document.getElementById('tracking-results');
+            const error = document.getElementById('tracking-error');
+            
+            // Hide both initially
+            results.classList.add('hidden');
+            error.classList.add('hidden');
+            
+            // Mock tracking response
+            if (trackingNumber.startsWith('BROKE')) {
+                const now = new Date();
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const dayAfter = new Date(now);
+                dayAfter.setDate(dayAfter.getDate() + 2);
+                
+                // Update tracking info
+                document.getElementById('tracking-order-number').textContent = trackingNumber;
+                document.getElementById('tracking-estimated-date').textContent = dayAfter.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                
+                // Update steps
+                document.getElementById('tracking-step1').textContent = now.toLocaleString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const processedTime = new Date(now);
+                processedTime.setHours(now.getHours() + 1);
+                document.getElementById('tracking-step2').textContent = processedTime.toLocaleString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                document.getElementById('tracking-step3').textContent = `Expected ${tomorrow.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}`;
+                
+                // Show results
+                results.classList.remove('hidden');
+            } else if (trackingNumber) {
+                error.classList.remove('hidden');
+            }
+        }
+
+        function togglePaymentModal() {
+            const modal = document.getElementById('payment-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                // Reset form when showing
+                document.getElementById('payment-form').reset();
+            }
+        }
+        // Initialize with all sections visible
+        window.onload = function() {
+            showSection('energy');
+            // Update product buttons to add to cart
+            document.querySelectorAll('.product-card button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productCard = this.closest('.product-card');
+                    const name = productCard.querySelector('h3').textContent;
+                    const category = productCard.closest('section').querySelector('h2').textContent;
+                    const price = parseFloat(productCard.querySelector('span').textContent.replace('R', ''));
+                    
+                    cart.push({ name, category, price });
+                    document.getElementById('cart-count').textContent = cart.length;
+                    
+                    // Show feedback
+                    const originalText = this.textContent;
+                    this.textContent = 'Added!';
+                    this.classList.add('bg-green-500');
+                    this.classList.remove('bg-pink-500');
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.classList.remove('bg-green-500');
+                        this.classList.add('bg-pink-500');
+                    }, 1000);
+                });
+            });
+        };
+
+        
+    </script>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg w-full max-w-md">
+            <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Payment Methods</h3>
+                <form id="payment-form" class="space-y-4">
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" class="form-control" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <input type="text" class="form-control" placeholder="MM/YY" required>
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" class="form-control" placeholder="123" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Card Holder Name</label>
+                        <input type="text" class="form-control" placeholder="Your Name" required>
+                    </div>
+                    <button type="submit" class="w-full bg-purple-600 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition">
+                        Save Payment Method
+                    </button>
+                </form>
+                <div class="mt-4 flex justify-center">
+                    <button onclick="togglePaymentModal()" class="text-gray-500 hover:text-gray-700">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
